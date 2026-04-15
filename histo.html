@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruno Colón - Historia de Chile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+            padding: 0 0.5rem;
+        }
+        
+        .nav-btn {
+            background: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #667eea;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-2px);
+        }
+        
+        .section {
+            display: none;
+            background: white;
+            margin: 1rem 0;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #1e3c72;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #ffd700;
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .card.important {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left-color: #ff6b6b;
+        }
+        
+        .card.success {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border-left-color: #2ecc71;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -1.8rem;
+            top: 1.2rem;
+            width: 12px;
+            height: 12px;
+            background: #ffd700;
+            border-radius: 50%;
+            border: 3px solid #667eea;
+        }
+        
+        .quiz-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .quiz-card h4 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+        
+        .option {
+            background: rgba(255,255,255,0.2);
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: rgba(255,255,255,0.4);
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #856404;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .map-placeholder {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            height: 200px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e3c72;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 0.2rem;
+        }
+        
+        .badge-war { background: #ff6b6b; color: white; }
+        .badge-treaty { background: #4ecdc4; color: white; }
+        .badge-date { background: #ffd700; color: #333; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+        
+        .quick-facts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .fact-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .fact-box .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<header>
+    <h1>🇨🇱 Bruno Colón</h1>
+    <p>Expansión Territorial de Chile (1860-1904)</p>
+    <p>Guerra del Pacífico • Ocupación de la Araucanía • Límites Nacionales</p>
+</header>
+
+<div class="container">
+    
+    <!-- Navegación -->
+    <div class="nav-tabs">
+        <button class="nav-btn active" onclick="showSection('guerra')">Guerra del Pacífico</button>
+        <button class="nav-btn" onclick="showSection('araucania')">Ocupación Araucanía</button>
+        <button class="nav-btn" onclick="showSection('etapas')">Etapas del Conflicto</button>
+        <button class="nav-btn" onclick="showSection('colonizacion')">Colonización</button>
+        <button class="nav-btn" onclick="showSection('limites')">Límites Nacionales</button>
+        <button class="nav-btn" onclick="showSection('preguntas')">Preguntas de Prueba</button>
+    </div>
+
+    <!-- SECCIÓN 1: GUERRA DEL PACÍFICO -->
+    <div id="guerra" class="section active">
+        <h2>⚔️ La Guerra del Pacífico (1879-1883)</h2>
+        
+        <div class="quick-facts">
+            <div class="fact-box">
+                <div class="number">1879</div>
+                <div>Inicio</div>
+            </div>
+            <div class="fact-box">
+                <div class="number">1883</div>
+                <div>Término</div>
+            </div>
+            <div class="fact-box">
+                <div class="number">4</div>
+                <div>Años</div>
+            </div>
+        </div>
+
+        <div class="card important">
+            <h3>🎯 Antecedentes</h3>
+            <ul>
+                <li><span class="highlight">Interés económico</span> en la zona por el <strong>salitre</strong> y el <strong>guano</strong></li>
+                <li><strong>Diferencias entre Chile y Bolivia</strong> por la delimitación de la frontera en el norte</li>
+                <li><span class="badge badge-treaty">Tratado 1866</span> y regulación de derechos de exportación del salitre <span class="badge badge-date">1874</span></li>
+                <li><span class="highlight">Pacto militar secreto</span> entre Perú y Bolivia</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>💥 Causa Directa</h3>
+            <p><strong>Alza de impuestos por Bolivia a empresarios chilenos</strong> en 1878. Esto violaba el Tratado de 1874.</p>
+            <p>La negativa de las empresas chilenas a pagar el nuevo impuesto significó el <span class="highlight">embargo y remate de las empresas salitreras chilenas en Antofagasta</span>.</p>
+        </div>
+
+        <div class="card success">
+            <h3>🏆 Consecuencias</h3>
+            <ul>
+                <li><strong>Incorporación de Tarapacá</strong> mediante el <span class="badge badge-treaty">Tratado de Ancón (1883)</span> con Perú</li>
+                <li><strong>Antofagasta</strong> tras el <span class="badge badge-treaty">Pacto de Tregua (1884)</span> y el <span class="badge badge-treaty">Tratado de Paz y Amistad con Bolivia (1904)</span></li>
+                <li><strong>Adquisición de las riquezas salitreras del Norte Grande</strong></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📍 Situación de Conflicto con Argentina (1881)</h3>
+            <p>Mientras Chile enfrentaba la Guerra del Pacífico en el Norte Grande, <strong>Argentina reclamó sus derechos sobre la Patagonia</strong>.</p>
+            <p>Para evitar un nuevo conflicto armado, Chile negoció y firmó el <span class="badge badge-treaty">Tratado de Límites con Argentina en 1881</span>.</p>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2: OCUPACIÓN DE LA ARAUCANÍA -->
+    <div id="araucania" class="section">
+        <h2>🌿 La Ocupación de la Araucanía (1860-1883)</h2>
+        
+        <div class="card">
+            <h3>📚 Antecedentes</h3>
+            <ul>
+                <li><strong>Colonización de territorio mapuche</strong> a través del desplazamiento progresivo de la frontera</li>
+                <li><strong>Interés económico</strong> por incorporar las tierras en manos de indígenas para la agricultura</li>
+                <li><span class="highlight">"Plan de Pacificación"</span>: el Estado inicia la ocupación militar de la Araucanía</li>
+            </ul>
+        </div>
+
+        <div class="card important">
+            <h3>⚔️ Proceso de Ocupación (1861-1882)</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="date-badge">1861-1868</span>
+                    <p>Ejército chileno liderado por el <strong>Coronel Cornelio Saavedra</strong> somete efectivamente el territorio</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="date-badge">Fortificaciones</span>
+                    <p>Complejos militares en <strong>Lebu, Angol, Mulchén, Purén y Cañete</strong></p>
+                </div>
+                <div class="timeline-item">
+                    <span class="date-badge">1882</span>
+                    <p>La resistencia mapuche fue violentamente reprimida y la <strong>ocupación consolidada definitivamente</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card success">
+            <h3>🎯 Consecuencias</h3>
+            <ul>
+                <li><strong>Incorporación de tierras para la agricultura triguera</strong></li>
+                <li><span class="highlight">Pérdida de territorios ancestrales</span> del pueblo mapuche y sometimiento al régimen de reducciones</li>
+                <li><strong>Fundación de Temuco (1881)</strong> y reconstrucción de <strong>Villarrica (1883)</strong></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🔄 Aculturación</h3>
+            <p><strong>Definición:</strong> Proceso mediante el cual paulatinamente un pueblo pierde su cultura originaria y la reemplaza por una foránea.</p>
+            <p>A partir del siglo XVIII, la zona de la frontera entró en una relativa situación de calma que favoreció el intercambio económico y cultural, profundizando un proceso de aculturación de las comunidades mapuches.</p>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 3: ETAPAS DEL CONFLICTO -->
+    <div id="etapas" class="section">
+        <h2>📅 Etapas del Conflicto (Guerra del Pacífico)</h2>
+        
+        <table>
+            <tr>
+                <th>Campaña</th>
+                <th>Año</th>
+                <th>Eventos Principales</th>
+            </tr>
+            <tr>
+                <td><span class="badge badge-war">Marítima</span></td>
+                <td>1879</td>
+                <td>
+                    • Desembarco en Antofagasta (14/02/1879)<br>
+                    • Combate Naval de Iquique/Punta Gruesa (21/05/1879)<br>
+                    • Combate Naval de Angamos (08/10/1879)
+                </td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-war">Tarapacá</span></td>
+                <td>1879</td>
+                <td>
+                    • Toma de Pisagua (05/11/1879)<br>
+                    • Batalla de Dolores (19/11/1879)<br>
+                    • Batalla de Tarapacá (26/11/1879)
+                </td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-war">Tacna y Arica</span></td>
+                <td>1880</td>
+                <td>
+                    • Batalla de Tacna (26/05/1880)<br>
+                    • Toma del Morro de Arica (07/06/1880)
+                </td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-war">Lima</span></td>
+                <td>1881</td>
+                <td>
+                    • Batalla de Chorrillos (13/01/1881)<br>
+                    • Batalla de Miraflores (15/01/1881)<br>
+                    • Ocupación de Lima (18/01/1881)
+                </td>
+            </tr>
+            <tr>
+                <td><span class="badge badge-war">Sierra</span></td>
+                <td>1881-84</td>
+                <td>
+                    • Batalla de Concepción (09-10/07/1882)<br>
+                    • Batalla de Huamachuco (10/07/1883)
+                </td>
+            </tr>
+        </table>
+
+        <div class="card important">
+            <h3>🚨 Detonante del Conflicto (Crisis Económica Mundial 1870s)</h3>
+            <p><strong>A)</strong> Nacionalización de la producción de salitre y guano de Perú y expropiación de las salitreras privadas</p>
+            <p><strong>B)</strong> Alza de impuestos al salitre exportado de territorio boliviano por empresas extranjeras en 1878 (violaba Tratado de 1874)</p>
+        </div>
+
+        <div class="card">
+            <h3>📍 Inicio de Hostilidades</h3>
+            <p>El <strong>desembarco de tropas chilenas en Antofagasta el 14 de febrero de 1879</strong> significó:</p>
+            <ul>
+                <li>La declaración de guerra por parte del gobierno de Bolivia</li>
+                <li>La inclusión en el conflicto de parte de Perú a razón del <strong>Tratado de Apoyo Mutuo</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 4: COLONIZACIÓN -->
+    <div id="colonizacion" class="section">
+        <h2>🚢 La Colonización y Zona Sur</h2>
+        
+        <div class="two-column">
+            <div class="card">
+                <h3>🇩🇪 Colonización Alemana</h3>
+                <ul>
+                    <li><span class="badge badge-date">Ley de Colonización 1845</span></li>
+                    <li>Agente estatal: <strong>Vicente Pérez Rosales</strong></li>
+                    <li>Reclutamiento selectivo en <strong>Alemania</strong> de colonos para Valdivia y Llanquihue</li>
+                </ul>
+                <div class="card success" style="margin-top: 1rem;">
+                    <strong>Consecuencias:</strong>
+                    <ul>
+                        <li>Fundación de <strong>Puerto Montt (1854)</strong></li>
+                        <li>Fundación de <strong>Puerto Varas (1854)</strong></li>
+                        <li>Integración económica agropecuaria e industrial</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🏝️ Incorporación de Chiloé y Magallanes</h3>
+                <h4>La Conquista de Chiloé</h4>
+                <ul>
+                    <li>Isla bajo dominio español hasta <span class="badge badge-date">1826</span></li>
+                    <li>Gobierno de <strong>Ramón Freire</strong></li>
+                    <li>Expulsión de últimas tropas realistas</li>
+                    <li><strong>Consolidación de la Independencia nacional</strong></li>
+                </ul>
+                
+                <h4>Ocupación de Magallanes</h4>
+                <ul>
+                    <li>Objetivo: Control sobre el <strong>Estrecho de Magallanes</strong></li>
+                    <li><span class="badge badge-date">Fuerte Bulnes (1843)</span></li>
+                    <li><span class="badge badge-date">Punta Arenas (1849)</span></li>
+                    <li>Ampliación de soberanía en el extremo sur</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card important">
+            <h3>📍 La Situación Previa - Período Colonial vs. Chile Republicano</h3>
+            <div class="two-column">
+                <div>
+                    <h4>🏛️ Período Colonial</h4>
+                    <p>El Reino de Chile, bajo la delegación de Carlos V a Pedro de Valdivia, consideraba el territorio patagónico desde el río Diamante hasta el extremo austral del Canal Beagle.</p>
+                    <p><span class="highlight">Sin embargo:</span> La región fue considerada, desde la ocupación española, un territorio estéril, sin riquezas productivas.</p>
+                </div>
+                <div>
+                    <h4>🇨🇱 Chile Republicano</h4>
+                    <p>Tras la independencia, el territorio es considerado <strong>de hecho parte de la soberanía nacional</strong>.</p>
+                    <p><span class="highlight">Legalmente:</span> La Constitución de 1833 <strong>omitía su pertenencia</strong>, estableciendo como límite este la Cordillera de los Andes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 5: LÍMITES NACIONALES -->
+    <div id="limites" class="section">
+        <h2>🗺️ El Estado y los Límites Nacionales</h2>
+        
+        <div class="card">
+            <h3>📜 Reconocimiento Constitucional</h3>
+            <ul>
+                <li>Tras la Independencia surge el problema de los límites del país</li>
+                <li>Aplicación del principio <span class="highlight">uti possidetis juris de 1810</span></li>
+                <li>Solo en la <span class="badge badge-date">Constitución de 1833</span> se define el territorio chileno</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🔬 Exploraciones Geográficas y Científicas</h3>
+            <ul>
+                <li>El Estado chileno auspicia expediciones científicas y geográficas</li>
+                <li><strong>Objetivo:</strong> Reconocer los recursos naturales y explorar las zonas extremas del país</li>
+            </ul>
+            <div class="card success" style="margin-top: 1rem;">
+                <strong>Expediciones importantes del siglo XIX:</strong>
+                <ul>
+                    <li>Claudio Gay</li>
+                    <li>Ignacio Domeyko</li>
+                    <li>Rodulfo Philippi</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card important">
+            <h3>⚠️ Tratado de Límites con Argentina (1881)</h3>
+            <p>Firmado mientras Chile enfrentaba la Guerra del Pacífico. Argentina reclamaba derechos sobre la Patagonia.</p>
+            <p>Chile prefirió negociar para evitar un conflicto armado en dos frentes simultáneos.</p>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 6: PREGUNTAS DE PRUEBA -->
+    <div id="preguntas" class="section">
+        <h2>📝 Preguntas de Prueba - Respuestas</h2>
+        
+        <div class="quiz-card">
+            <h4>Pregunta 1:</h4>
+            <p>"Desde mediados del siglo XIX, las autoridades nacionales implementaron programas de colonización en territorios ocupados por población mayoritariamente indígena. Para materializar dicho plan, el Estado chileno..."</p>
+            <div class="option" onclick="this.style.background='#2ecc71'">
+                <strong>A)</strong> Indemnizó a los dueños de las tierras ocupadas ❌
+            </div>
+            <div class="option" onclick="this.style.background='#2ecc71'">
+                <strong>B)</strong> Fomentó la llegada de inmigrantes europeos ✅ <span style="color: #ffd700;">CORRECTA</span>
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>C)</strong> Inició un proceso de reforma agraria ❌
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>D)</strong> Abolió el sistema laboral de inquilinaje ❌
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>E)</strong> Expropió suelos agrícolas de los mapuches ❌
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>Respuesta: B</strong> - Ver Ley de Colonización 1845 y colonización alemana.</p>
+        </div>
+
+        <div class="quiz-card">
+            <h4>Pregunta 2:</h4>
+            <p>"Durante la segunda mitad del siglo XIX, el territorio de Chile sufrió diversas modificaciones, como la extensión hacia el norte y la consolidación de la presencia estatal en el sur del país. Estos procesos impulsados por el Estado se orientaron a..."</p>
+            <p>I) Aumento de la producción de materias primas<br>
+               II) Desarrollo de diversas actividades económicas<br>
+               III) Recuperación del territorio perdido tras la guerra de Independencia</p>
+            
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>A)</strong> Solo III ❌
+            </div>
+            <div class="option" onclick="this.style.background='#2ecc71'">
+                <strong>B)</strong> Solo I y II ✅ <span style="color: #ffd700;">CORRECTA</span>
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>C)</strong> Solo I y III ❌
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>D)</strong> Solo II y III ❌
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>E)</strong> I, II y III ❌
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>Respuesta: B</strong> - El objetivo era económico: salitre, guano, agricultura. No recuperación de territorio (Chile no perdió territorio en la Independencia).</p>
+        </div>
+
+        <div class="quiz-card">
+            <h4>Pregunta 3:</h4>
+            <p>"El cese de las acciones militares entre Chile y Perú en 1883 significó la firma del Tratado de Ancón, en el que se estableció para nuestro país las ciudades de Arica y Tacna y, además..."</p>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>A)</strong> La pérdida de la provincia de Antofagasta ❌
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>B)</strong> La cesión de la zona patagónica ❌
+            </div>
+            <div class="option" onclick="this.style.background='#2ecc71'">
+                <strong>C)</strong> La incorporación a perpetuidad de la provincia de Tarapacá ✅ <span style="color: #ffd700;">CORRECTA</span>
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>D)</strong> La disminución del espacio marítimo de Chile ❌
+            </div>
+            <div class="option" onclick="this.style.background='#e74c3c'">
+                <strong>E)</strong> El monopolio del Estado peruano sobre las oficinas salitreras ❌
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>Respuesta: C</strong> - Tarapacá quedó para Chile a perpetuidad. Tacna y Arica quedaron en plebiscito (Tacna volvió a Perú en 1929, Arica quedó para Chile).</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>© 2024 Bruno Colón - Material de Estudio para Prueba</p>
+    <p>¡Éxito en tu evaluación! 📚✨</p>
+</div>
+
+<script>
+    function showSection(sectionId) {
+        // Ocultar todas las secciones
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // Remover clase active de todos los botones
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Mostrar sección seleccionada
+        document.getElementById(sectionId).classList.add('active');
+        
+        // Activar botón correspondiente
+        event.target.classList.add('active');
+        
+        // Scroll suave al inicio
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
